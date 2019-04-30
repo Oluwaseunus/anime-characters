@@ -8,6 +8,14 @@ import {
 
 const fetchUrl = 'https://api.jikan.moe/v3';
 
+/**
+ * The API requires a 3 second wait between requests.
+ * So this function tries to fetch data, and if there's
+ * an error, it waits for 3 seconds before fetching
+ * trying to fetch again.
+ * @param {function} func fetch function to call
+ */
+
 const fetchOrWait = func => {
   try {
     func();
@@ -25,14 +33,12 @@ export const fetchAllAnime = () => dispatch => {
     const response = await fetch(`${fetchUrl}/top/anime`);
     const data = await response.json();
     dispatch(fetchAllAnimeFinisher(data.top));
-    console.log(data, data.top);
   };
 
   fetchOrWait(fetchData);
 };
 
 export const fetchSingleAnime = animeId => async dispatch => {
-  console.log('Fetching details for ' + animeId);
   dispatch(fetchSingleAnimeStarted());
 
   const fetchData = async () => {

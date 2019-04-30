@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.header {
+  text-align: center;
+  margin: 2rem auto;
+}
+
+.animes {
+  text-align: center;
+
+  &:last-child {
+    margin-bottom: 5rem;
+  }
+}
+
+a {
+  &:link,
+  &:visited {
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: #333;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #fff;
+      background-color: #333;
+      transform: scale(11);
+    }
+  }
+}
+
+.anime {
+  margin-bottom: 0.5rem;
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.single {
+  width: 90vw;
+  margin: 1.5rem auto;
+  text-align: center;
+
+  &__image {
+    // padding: 2rem;
+    box-shadow: 0 1.5rem 2rem rgba(0, 0, 0, 0.2);
+    margin: 2rem auto;
+  }
+
+  &__details {
+    width: 50%;
+    margin: 3rem auto;
+    text-align: justify;
+
+    & > * {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.characters {
+  &__sort {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &-button {
+      border: none;
+      margin: 0.5rem 0;
+      align-self: center;
+      background: #eee;
+      padding: 1rem 1.2rem;
+      font-family: inherit;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &__list {
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    align-items: center;
+    justify-content: flex-start;
+    width: 50%;
+    margin: auto;
+  }
+
+  &__single {
+    align-self: center;
+    padding: 1rem 1.5rem;
+
+    &-avatar {
+      width: 225;
+      height: 350;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+}
