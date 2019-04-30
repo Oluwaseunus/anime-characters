@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import ReactLoading from 'react-loading';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -10,21 +11,24 @@ const Main = ({ animes, fetchAllAnime }) => {
   }, [fetchAllAnime]);
 
   return (
-    <div>
-      <h2>This is the main file</h2>
-      <p>This is the other thing</p>
+    <>
+      <header className='header'>
+        <h2 className='header__title'>Unofficial My Anime List</h2>
+      </header>
       <div className='animes'>
         {animes.length > 0 ? (
           animes.map(anime => (
-            <div key={anime.mal_id}>
+            <div className='anime' key={anime.mal_id}>
               <Link to={`/anime/${anime.mal_id}`}>{anime.title}</Link>
             </div>
           ))
         ) : (
-          <p>Fetching AnimeList...</p>
+          <div className='loading'>
+            <ReactLoading type='spin' color='#333' />
+          </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

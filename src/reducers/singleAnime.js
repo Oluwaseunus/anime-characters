@@ -9,7 +9,6 @@ export default (state = {}, action) => {
       return {};
 
     case FETCH_SINGLE_ANIME_ENDED:
-      console.log('ACTION', action.payload);
       return { ...action.payload };
 
     default:
