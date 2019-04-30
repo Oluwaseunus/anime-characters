@@ -14,21 +14,15 @@ const Main = ({ animes, fetchAllAnime }) => {
       <h2>This is the main file</h2>
       <p>This is the other thing</p>
       <div className='animes'>
-        {animes.map(anime => (
-          <div key={anime.mal_id}>
-            <Link
-              to={{
-                pathname: `/anime/${anime.mal_id}`,
-                state: {
-                  anime
-                }
-              }}
-            >
-              {anime.title}
-            </Link>
-          </div>
-          // <SingleAnime key={anime.given_id} anime={anime} />
-        ))}
+        {animes.length > 0 ? (
+          animes.map(anime => (
+            <div key={anime.mal_id}>
+              <Link to={`/anime/${anime.mal_id}`}>{anime.title}</Link>
+            </div>
+          ))
+        ) : (
+          <p>Fetching AnimeList...</p>
+        )}
       </div>
     </div>
   );

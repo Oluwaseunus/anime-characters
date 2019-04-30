@@ -2,34 +2,51 @@ import {
   FETCH_ALL_ANIME_STARTED,
   FETCH_ALL_ANIME_ENDED,
   FETCH_SINGLE_ANIME_STARTED,
-  FETCH_SINGLE_ANIME_ENDED
+  FETCH_SINGLE_ANIME_ENDED,
+  FETCH_SINGLE_ANIME_CHARACTERS
 } from './types';
 
 const fetchUrl = 'https://api.jikan.moe/v3';
 
-export const fetchAllAnime = () => async dispatch => {
+const fetchOrWait = func => {
+  try {
+    func();
+  } catch (error) {
+    setTimeout(() => {
+      func();
+    }, 3000);
+  }
+};
+
+export const fetchAllAnime = () => dispatch => {
   dispatch(fetchAllAnimeStarted());
 
-  const response = await fetch(`${fetchUrl}/top/anime`);
-  const data = await response.json();
-  console.log(data, data.top);
-  dispatch(fetchAllAnimeFinisher(data.top));
+  const fetchData = async () => {
+    const response = await fetch(`${fetchUrl}/top/anime`);
+    const data = await response.json();
+    dispatch(fetchAllAnimeFinisher(data.top));
+    console.log(data, data.top);
+  };
+
+  fetchOrWait(fetchData);
 };
 
 export const fetchSingleAnime = animeId => async dispatch => {
   console.log('Fetching details for ' + animeId);
   dispatch(fetchSingleAnimeStarted());
 
-  const response = await fetch(`${fetchUrl}/anime/${animeId}/characters_staff`);
-  const data = await response.json();
-  const animeCharacters = data.characters.map(char => ({
-    name: char.name,
-    id: char.mal_id
-  }));
+  const fetchData = async () => {
+    const response = await fetch(
+      `${fetchUrl}/anime/${animeId}/characters_staff`
+    );
+    const anime = await fetch(`${fetchUrl}/anime/${animeId}`);
+    const details = await anime.json();
+    const data = await response.json();
+    dispatch(fetchSingleAnimeFinisher(details));
+    dispatch(fetchCurrentCharacters(data.characters));
+  };
 
-  console.log(animeCharacters);
-
-  dispatch(fetchSingleAnimeFinisher(animeCharacters));
+  fetchOrWait(fetchData);
 };
 
 const fetchAllAnimeStarted = () => ({
@@ -48,4 +65,9 @@ const fetchSingleAnimeStarted = () => ({
 const fetchSingleAnimeFinisher = animeDetails => ({
   type: FETCH_SINGLE_ANIME_ENDED,
   payload: animeDetails
+});
+
+const fetchCurrentCharacters = data => ({
+  type: FETCH_SINGLE_ANIME_CHARACTERS,
+  payload: data
 });

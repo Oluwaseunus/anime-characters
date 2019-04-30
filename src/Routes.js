@@ -7,15 +7,15 @@ import SingleAnime from './components/SingleAnime';
 
 import store from './store';
 
-const Router = () => {
+const Routes = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Route exact path='/' component={Main} />
-        <Route path='/:id' render={props => <SingleAnime {...props} />} />
+        <Route path='/anime/:id' render={props => <SingleAnime {...props} />} />
       </BrowserRouter>
     </Provider>
   );
 };
 
-export default Router;
+export default Routes;
