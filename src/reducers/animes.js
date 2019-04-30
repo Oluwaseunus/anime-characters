@@ -6,7 +6,6 @@ import {
 export default (state = [], action) => {
   switch (action.type) {
     case FETCH_ALL_ANIME_STARTED:
-      console.log('FETCHING!!!');
       return state;
 
     case FETCH_ALL_ANIME_ENDED:

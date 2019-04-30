@@ -3,38 +3,57 @@ import { connect } from 'react-redux';
 
 import { fetchSingleAnime } from '../actions';
 
-const SingleAnime = ({ characters, fetchSingleAnime, location }) => {
-  const { anime } = location.state;
+const SingleAnime = props => {
+  const { currentCharacters, fetchSingleAnime, match, singleAnime } = props;
 
   useEffect(() => {
-    fetchSingleAnime(anime.mal_id);
-  }, [anime.mal_id, fetchSingleAnime]);
+    fetchSingleAnime(match.params.id);
+  }, [fetchSingleAnime, match.params.id]);
+
+  console.log('Rendering!', singleAnime);
+  console.log(singleAnime);
 
   return (
-    <div>
-      <p>Title: {anime.title}</p>
-      <p>Type: {anime.type}</p>
-      <p>Synopsis: {anime.synopsis}</p>
-      {anime.duration && <p>Duration: {anime.duration}</p>}
-      {anime.episodes && <p>Number of episodes: {anime.episodes}</p>}
-      {anime.rating && <p>Rating: {anime.rating}</p>}
-      {anime.status && <p>Status: {anime.status}</p>}
-      <hr />
-      {characters ? (
-        'Loading...'
+    <>
+      {singleAnime.image_url ? (
+        <div>
+          <img
+            src={singleAnime.image_url}
+            alt={`${singleAnime.title} poster`}
+          />
+          <p>Title: {singleAnime.title}</p>
+          <p>Type: {singleAnime.type}</p>
+          <p>Synopsis: {singleAnime.synopsis}</p>
+          <p>Duration: {singleAnime.duration}</p>
+          <p>Number of episodes: {singleAnime.episodes}</p>
+          <p>Rating: {singleAnime.rating}</p>
+          <p>Status: {singleAnime.status}</p>
+          <hr />
+
+          {currentCharacters.length > 0 ? (
+            <div>
+              <h3>Characters</h3>
+              {currentCharacters.map(character => (
+                <div key={character.id}>
+                  <img src={character.image_url} alt={character.name} />
+                  <p>Name: {character.name}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
       ) : (
-        <ul>
-          {characters.map(character => (
-            <li key={character.id}>{character.name}</li>
-          ))}
-        </ul>
+        'Loading details...'
       )}
-    </div>
+    </>
   );
 };
 
-const mapStateToProps = ({ characters }) => ({
-  characters
+const mapStateToProps = ({ singleAnime, currentCharacters }) => ({
+  singleAnime,
+  currentCharacters
 });
 
 export default connect(
