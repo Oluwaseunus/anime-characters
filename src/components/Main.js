@@ -12,9 +12,6 @@ const Main = ({ animes, fetchAllAnime }) => {
 
   return (
     <>
-      <header className='header'>
-        <h2 className='header__title'>Unofficial My Anime List</h2>
-      </header>
       <div className='animes'>
         {animes.length > 0 ? (
           animes.map(anime => (
