@@ -36,7 +36,13 @@ const SingleAnime = props => {
             alt={`${singleAnime.title} poster`}
           />
           <div className='single__details'>
-            <h2>{singleAnime.title}</h2>
+            <h2
+              style={{
+                textAlign: 'center'
+              }}
+            >
+              {singleAnime.title}
+            </h2>
             <p>Type: {singleAnime.type}</p>
             <p>Synopsis: {singleAnime.synopsis}</p>
             <p>Duration: {singleAnime.duration}</p>

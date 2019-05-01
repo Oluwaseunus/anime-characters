@@ -20,8 +20,9 @@ const fetchOrWait = func => {
   try {
     func();
   } catch (error) {
+    console.log(error);
     setTimeout(() => {
-      func();
+      fetchOrWait(func());
     }, 3000);
   }
 };
